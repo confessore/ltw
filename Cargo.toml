@@ -1,0 +1,17 @@
+[package]
+name = "ltw"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[lib]
+name = "ltwlib"
+path = "src/lib.rs"
+
+[[bin]]
+name = "ltwbin"
+path = "src/main.rs"
+
+[dependencies]
+bevy = { version = "^0.5", features = ["dynamic"] }
