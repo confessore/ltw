@@ -14,4 +14,4 @@ name = "ltwbin"
 path = "src/main.rs"
 
 [dependencies]
-bevy = { version = "^0.5", features = ["dynamic"] }
+bevy = { version = "^0.5" }
