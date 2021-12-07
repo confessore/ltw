@@ -1,12 +1,12 @@
-use ltwlib::{
-    Game,
-    GameState,
-    Tile
-};
 use bevy::{
     ecs::schedule::SystemSet,
     prelude::*,
     window::WindowMode
+};
+use ltw::{
+    Game,
+    GameState,
+    Tile
 };
 use rand::Rng;
 
@@ -24,7 +24,7 @@ fn main() {
         .add_plugins(DefaultPlugins)
         .add_state(GameState::Default)
         .add_startup_system(setup_cameras)
-        .add_system(setup.system())
+        .add_system_set(SystemSet::on_enter(GameState::Default).with_system(setup))
         .run();
 }
 
@@ -52,7 +52,13 @@ fn setup(
     mut materials: ResMut<Assets<StandardMaterial>>,
     asset_server: Res<AssetServer>) {
         commands.spawn_bundle(PointLightBundle {
-            transform: Transform::from_xyz(4.0, 5.0, 4.0),
+            point_light: PointLight {
+                color: Color::rgb(0.9, 0.9, 0.9),
+                intensity: 500.0,
+                range: 50.0,
+                radius: 0.0
+            },
+            transform: Transform::from_xyz(BOARD_SIZE_X as f32 / 2.0, 5.0, BOARD_SIZE_Y as f32 / 2.0),
             ..Default::default()
         });
         let tile_mesh = meshes.add(Mesh::from(shape::Plane {
@@ -63,9 +69,9 @@ fn setup(
         game.map = 
             (0..BOARD_SIZE_Y).map(|y| {
                 (0..BOARD_SIZE_X).map(|x| {
-                    let height = rand::thread_rng().gen_range(-0.1..0.1);
+                    //let height = rand::thread_rng().gen_range(-10.0..10.0);
                     commands.spawn_bundle(PbrBundle {
-                        transform: Transform::from_xyz(x as f32, height - 0.2, y as f32),
+                        transform: Transform::from_xyz(x as f32, 0.0, y as f32),
                         ..Default::default()
                     })
                     .with_children(|tile| {
@@ -82,7 +88,7 @@ fn setup(
                         });
                     });
                     Tile { 
-                        height
+                        height: 0.0
                     }
                 })
                 .collect()
@@ -90,8 +96,8 @@ fn setup(
             .collect()
 }
 
-const BOARD_SIZE_X: usize = 14;
-const BOARD_SIZE_Y: usize = 21;
+const BOARD_SIZE_X: usize = 32;
+const BOARD_SIZE_Y: usize = 32;
 
 const RESET_FOCUS: [f32; 3] = [
     BOARD_SIZE_X as f32 / 2.0,
