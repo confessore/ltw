@@ -1,4 +1,4 @@
 pub enum Collider {
-    Solid,
+    Default,
     Unit
 }
