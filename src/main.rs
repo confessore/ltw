@@ -1,11 +1,16 @@
 use bevy::{
     ecs::schedule::SystemSet,
     prelude::*,
+    render::{
+        camera::Camera,
+        render_graph::base::camera::CAMERA_3D
+    },
     window::WindowMode
 };
 use ltw::{
     Game,
     GameState,
+    PlayerState,
     Tile
 };
 use rand::Rng;
@@ -23,13 +28,20 @@ fn main() {
         .init_resource::<Game>()
         .add_plugins(DefaultPlugins)
         .add_state(GameState::Default)
+        .add_state(PlayerState::Playing)
         .add_startup_system(setup_cameras)
         .add_system_set(
             SystemSet::on_enter(GameState::Default)
                 .with_system(setup))
         .add_system_set(
             SystemSet::on_update(GameState::Default)
-                .with_system(move_unit))
+                .with_system(move_unit)
+                .with_system(focus_camera)
+                .with_system(menu))
+        .add_system_set(
+            SystemSet::on_enter(PlayerState::Menu)
+                .with_system(lol))
+        //.add_system(bevy::input::system::exit_on_esc_system)
         .run();
 }
 
@@ -98,6 +110,8 @@ fn setup(
             .collect()
         })
         .collect();
+        game.unit.x = BOARD_SIZE_X / 2;
+        game.unit.y = BOARD_SIZE_Y / 2;
         let character = asset_server.load("models/character.glb#Scene0");
         game.unit.entity = Some(
             commands.spawn_bundle(PbrBundle {
@@ -118,39 +132,39 @@ fn move_unit(
     keyboard_input: Res<Input<KeyCode>>) {
         let mut moved = false;
         let mut rotation = 0.0;
-        if keyboard_input.just_pressed(KeyCode::W) {
+        if keyboard_input.pressed(KeyCode::W) {
             if game.unit.x < BOARD_SIZE_X - 1 {
                 game.unit.x += 1;
+            }
+            rotation = std::f32::consts::FRAC_PI_2;
+            moved = true;
+        }
+        if keyboard_input.pressed(KeyCode::A) {
+            if game.unit.y > 0 {
+                game.unit.y -= 1;
+            }
+            rotation = std::f32::consts::PI;
+            moved = true;
+        }
+        if keyboard_input.pressed(KeyCode::S) {
+            if game.unit.x > 0 {
+                game.unit.x -= 1;
             }
             rotation = -std::f32::consts::FRAC_PI_2;
             moved = true;
         }
-        if keyboard_input.just_pressed(KeyCode::A) {
-            if game.unit.y > 0 {
-                game.unit.y -= 1;
-            }
-            rotation = 0.0;
-            moved = true;
-        }
-        if keyboard_input.just_pressed(KeyCode::S) {
-            if game.unit.x > 0 {
-                game.unit.x -= 1;
-            }
-            rotation = std::f32::consts::FRAC_PI_2;
-            moved = true;
-        }
-        if keyboard_input.just_pressed(KeyCode::D) {
+        if keyboard_input.pressed(KeyCode::D) {
             if game.unit.y < BOARD_SIZE_Y -1 {
                 game.unit.y += 1;
             }
-            rotation = std::f32::consts::FRAC_PI_2;
+            rotation = 0.0;
             moved = true;
         }
         if moved {
             *transforms.get_mut(game.unit.entity.unwrap()).unwrap() = Transform {
                 translation: Vec3::new(
                     game.unit.x as f32,
-                    2.0,
+                    2.5,
                     game.unit.y as f32
                 ),
                 rotation: Quat::from_rotation_y(rotation),
@@ -158,6 +172,58 @@ fn move_unit(
             };
         }
 }
+
+fn focus_camera(mut game: ResMut<Game>,
+    mut transforms: QuerySet<(
+        QueryState<(&mut Transform, &Camera)>,
+        QueryState<&Transform>)>,
+    time: Res<Time>) {
+        if let Some(unit_entity) =  game.unit.entity {
+            if let Ok(unit_transform) = transforms.q1().get(unit_entity) {
+                game.camera_to = unit_transform.translation;
+            } else {
+                game.camera_to = Vec3::from(RESET_FOCUS);
+            }
+        }
+        let mut camera_motion = game.camera_to - game.camera_from;
+        if camera_motion.length() > 0.2 {
+            camera_motion *= SPEED * time.delta_seconds();
+            game.camera_from += camera_motion;
+        }
+        for (mut transform, camera) in transforms.q0().iter_mut() {
+            if camera.name == Some(CAMERA_3D.to_string()) {
+                *transform = transform.looking_at(game.camera_from, Vec3::Y);
+            }
+        }
+}
+
+fn menu(
+    mut commands: Commands,
+    mut game: ResMut<Game>,
+    mut game_state: ResMut<State<GameState>>,
+    mut player_state: ResMut<State<PlayerState>>,
+    mut transforms: Query<&mut Transform>,
+    keyboard_input: Res<Input<KeyCode>>) {
+        if keyboard_input.just_pressed(KeyCode::Escape) {
+            let state = player_state.current();
+            if *state == PlayerState::Playing {
+                player_state.set(PlayerState::Menu).unwrap();
+                return;
+            }
+            else if *state == PlayerState::Menu {
+                player_state.set(PlayerState::Playing).unwrap();
+                return;
+            } else {
+                return;
+            }
+        }
+}
+
+fn lol() {
+    println!("menu");
+}
+
+const SPEED: f32 = 2.0;
 
 const BOARD_SIZE_X: usize = 32;
 const BOARD_SIZE_Y: usize = 32;
