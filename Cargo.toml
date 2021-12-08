@@ -14,5 +14,9 @@ name = "ltw"
 path = "src/main.rs"
 
 [dependencies]
-bevy = { git = "https://github.com/bevyengine/bevy", branch = "main" }
 rand = { version = "^0.8" }
+
+[dependencies.bevy]
+git = "https://github.com/bevyengine/bevy"
+branch = "main"
+features = ["bevy_gltf"]

@@ -1,6 +1,7 @@
 use crate::{
     Player,
-    Tile
+    Tile,
+    Unit
 };
 use bevy::math::Vec3;
 
@@ -9,7 +10,8 @@ pub struct Game {
     pub map: Vec<Vec<Tile>>,
     pub players: Vec<Player>,
     pub camera_from: Vec3,
-    pub camera_to: Vec3
+    pub camera_to: Vec3,
+    pub unit: Unit
 }
 
 impl Game {

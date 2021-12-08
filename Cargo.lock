@@ -338,6 +338,29 @@ dependencies = [
 ]
 
 [[package]]
+name = "bevy_gltf"
+version = "0.5.0"
+source = "git+https://github.com/bevyengine/bevy?branch=main#5e516ab39806fe6a5c4edf6f86372e97ee502bfc"
+dependencies = [
+ "anyhow",
+ "base64",
+ "bevy_app",
+ "bevy_asset",
+ "bevy_core",
+ "bevy_ecs",
+ "bevy_log",
+ "bevy_math",
+ "bevy_pbr",
+ "bevy_reflect",
+ "bevy_render",
+ "bevy_scene",
+ "bevy_transform",
+ "gltf",
+ "percent-encoding",
+ "thiserror",
+]
+
+[[package]]
 name = "bevy_gltf2"
 version = "0.5.0"
 source = "git+https://github.com/bevyengine/bevy?branch=main#5e516ab39806fe6a5c4edf6f86372e97ee502bfc"
@@ -387,6 +410,7 @@ dependencies = [
  "bevy_diagnostic",
  "bevy_ecs",
  "bevy_gilrs",
+ "bevy_gltf",
  "bevy_gltf2",
  "bevy_input",
  "bevy_log",
