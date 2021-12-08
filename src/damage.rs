@@ -1,10 +1,4 @@
-pub enum DamageType {
-    Default,
-    Magic,
-    Physical
-}
-
-pub enum MagicType {
+pub enum MagicalDamage {
     Default,
     Air,
     Earth,
@@ -12,7 +6,7 @@ pub enum MagicType {
     Water
 }
 
-pub enum PhysicalType {
+pub enum PhysicalDamage {
     Default,
     Crushing,
     Piercing,

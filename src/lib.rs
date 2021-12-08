@@ -1,29 +1,45 @@
 mod action;
+mod damage;
+mod effect;
 mod game;
 mod player;
-mod states;
-mod systems;
+mod state;
+mod system;
 mod tile;
-mod types;
 mod unit;
 pub use crate::{
-    action::Action,
-    game::Game,
-    player::Player,
-    states::{
+    action::{
+        Action,
+        InputAction::{
+            
+        }
+    },
+    damage::{
+        MagicalDamage,
+        PhysicalDamage
+    },
+    effect::{
+
+    },
+    game::{
+        Game
+    },
+    player::{
+        Player
+    },
+    state::{
         GameState,
         PlayerState
     },
-    systems::{
+    system::{
         movementsystem::{
             
         }
     },
-    tile::Tile,
-    types::{
-        DamageType,
-        MagicType,
-        PhysicalType
+    tile::{
+        Tile
     },
-    unit::Unit
+    unit::{
+        Unit
+    }
 };

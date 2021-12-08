@@ -1,9 +1,19 @@
 use super::*;
+use bevy::math::Vec3;
 
 pub struct Action {
-    pub name: String,
-    pub points_required: u32,
-    pub damage_type: DamageType,
-    pub magic_type: MagicType,
-    pub physical_type: PhysicalType
+    pub input: InputAction,
+    pub targets: Vec<Vec3>,
+    pub points: u32,
+    pub magical: MagicalDamage,
+    pub physical: PhysicalDamage,
+    pub damage: u32
+}
+
+pub enum InputAction {
+    Default,
+    Ability,
+    Attack,
+    Item,
+    Move
 }
