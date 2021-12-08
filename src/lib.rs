@@ -10,9 +10,7 @@ mod unit;
 pub use crate::{
     action::{
         Action,
-        InputAction::{
-            
-        }
+        InputAction
     },
     damage::{
         MagicalDamage,
