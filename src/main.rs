@@ -7,6 +7,9 @@ use bevy::{
     },
     window::WindowMode
 };
+use bevy_ggrs::{
+    GGRSPlugin
+};
 use ltw::{
     Game,
     GameState,
@@ -14,21 +17,28 @@ use ltw::{
     Tile
 };
 use rand::Rng;
+use structopt::StructOpt;
 
-fn main() {
+fn main() -> Result<(), Box<dyn std::error::Error>> {
+    //let opt = Opt::from_args();
+    //let players = opt.players.len();
+    //assert!(players > 0);
+    //let mut p2p_session = P2PSession::new(players, )
     App::new()
         .insert_resource(Msaa {
             samples: 4
         })
         .insert_resource(WindowDescriptor {
             title: String::from("ltw"),
-            mode: WindowMode::BorderlessFullscreen,
+            //mode: WindowMode::BorderlessFullscreen,
             ..Default::default()
         })
         .init_resource::<Game>()
         .add_plugins(DefaultPlugins)
+        .add_plugin(GGRSPlugin)
         .add_state(GameState::Default)
         .add_state(PlayerState::Playing)
+        .add_startup_system(start_p2p_session)
         .add_startup_system(setup_cameras)
         .add_system_set(
             SystemSet::on_enter(GameState::Default)
@@ -43,6 +53,7 @@ fn main() {
                 .with_system(lol))
         //.add_system(bevy::input::system::exit_on_esc_system)
         .run();
+    Ok(())
 }
 
 fn setup_cameras(
@@ -221,6 +232,20 @@ fn menu(
 
 fn lol() {
     println!("menu");
+}
+
+fn start_p2p_session() {
+
+}
+
+#[derive(StructOpt)]
+struct Opt {
+    #[structopt(short, long)]
+    local_port: u16,
+    #[structopt(short, long)]
+    players: Vec<String>,
+    #[structopt(short, long)]
+    spectators: Vec<std::net::SocketAddr>,
 }
 
 const SPEED: f32 = 2.0;

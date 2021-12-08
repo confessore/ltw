@@ -1,4 +1,4 @@
-use crate::Unit;
+use super::*;
 
 pub struct Player {
     pub units: Vec<Unit>,

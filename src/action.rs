@@ -1,8 +1,4 @@
-use crate::{
-    DamageType,
-    MagicType,
-    PhysicalType
-};
+use super::*;
 
 pub struct Action {
     pub name: String,
