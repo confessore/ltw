@@ -25,3 +25,7 @@ features = ["bevy_gltf"]
 [dependencies.bevy_ggrs]
 git = "https://github.com/gschup/bevy_ggrs"
 branch = "main"
+
+[dependencies.ggrs]
+git = "https://github.com/gschup/ggrs"
+branch = "main"

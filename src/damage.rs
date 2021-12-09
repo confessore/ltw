@@ -1,4 +1,8 @@
+use bevy::prelude::*;
+
+#[derive(Default, Copy, Clone, Reflect, Hash)]
 pub enum MagicalDamage {
+    #[default]
     Default,
     Air,
     Earth,
@@ -6,7 +10,9 @@ pub enum MagicalDamage {
     Water
 }
 
+#[derive(Default, Copy, Clone, Reflect, Hash)]
 pub enum PhysicalDamage {
+    #[default]
     Default,
     Crushing,
     Piercing,

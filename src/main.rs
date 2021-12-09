@@ -64,8 +64,8 @@ fn setup_cameras(
         commands.spawn_bundle(PerspectiveCameraBundle {
             transform: Transform::from_xyz(
                 -(BOARD_SIZE_X as f32 / 2.0),
-                2.0 * BOARD_SIZE_Y as f32 / 3.0,
-                BOARD_SIZE_Y as f32 / 2.0 - 0.5
+                2.0 * BOARD_SIZE_Y as f32 / 5.0,
+                BOARD_SIZE_Y as f32 / 2.0
             )
             .looking_at(game.camera_from, Vec3::Y),
             ..Default::default()
@@ -256,5 +256,5 @@ const BOARD_SIZE_Y: usize = 32;
 const RESET_FOCUS: [f32; 3] = [
     BOARD_SIZE_X as f32 / 2.0,
     0.0,
-    BOARD_SIZE_Y as f32 / 2.0 - 0.5,
+    BOARD_SIZE_Y as f32 / 2.0,
 ];
