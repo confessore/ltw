@@ -11,6 +11,10 @@ use bevy_ggrs::{
     GGRSPlugin
 };
 use ltw::{
+    system::{
+        defaultsystem,
+        movementsystem
+    },
     Game,
     GameState,
     PlayerState,
@@ -37,20 +41,20 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         .add_plugins(DefaultPlugins)
         .add_plugin(GGRSPlugin)
         .add_state(GameState::Default)
-        .add_state(PlayerState::Playing)
-        .add_startup_system(start_p2p_session)
+        .add_state(PlayerState::Default)
         .add_startup_system(setup_cameras)
         .add_system_set(
             SystemSet::on_enter(GameState::Default)
-                .with_system(setup))
+                .with_system(setup)
+                .with_system(defaultsystem::setup))
         .add_system_set(
             SystemSet::on_update(GameState::Default)
                 .with_system(move_unit)
                 .with_system(focus_camera)
                 .with_system(menu))
-        .add_system_set(
-            SystemSet::on_enter(PlayerState::Menu)
-                .with_system(lol))
+        //.add_system_set(
+        //    SystemSet::on_enter(PlayerState::Menu)
+        //        .with_system(lol))
         //.add_system(bevy::input::system::exit_on_esc_system)
         .run();
     Ok(())

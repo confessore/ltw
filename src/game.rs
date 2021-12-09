@@ -1,5 +1,5 @@
 use super::*;
-use bevy::math::Vec3;
+use bevy::prelude::*;
 
 #[derive(Default)]
 pub struct Game {
