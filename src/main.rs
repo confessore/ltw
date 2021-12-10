@@ -1,11 +1,19 @@
 use bevy::{
     ecs::schedule::SystemSet,
+    diagnostic::{
+        Diagnostics
+    },
     prelude::*,
     render::{
         camera::Camera,
         render_graph::base::camera::CAMERA_3D
     },
-    window::WindowMode
+    window::WindowMode,
+    wgpu::{
+        diagnostic::{
+            WgpuResourceDiagnosticsPlugin
+        }
+    }
 };
 use bevy_ggrs::{
     GGRSPlugin
@@ -34,7 +42,9 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         })
         .insert_resource(WindowDescriptor {
             title: String::from("ltw"),
-            //mode: WindowMode::BorderlessFullscreen,
+            //mode: WindowMode::Fullscreen,
+            width: 1280.0,
+            height: 720.0,
             ..Default::default()
         })
         .init_resource::<Game>()
@@ -49,15 +59,22 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                 .with_system(defaultsystem::setup))
         .add_system_set(
             SystemSet::on_update(GameState::Default)
+                .with_system(diag)
                 .with_system(move_unit)
                 .with_system(focus_camera)
                 .with_system(menu))
+        .add_plugin(WgpuResourceDiagnosticsPlugin::default())
         //.add_system_set(
         //    SystemSet::on_enter(PlayerState::Menu)
         //        .with_system(lol))
         //.add_system(bevy::input::system::exit_on_esc_system)
         .run();
     Ok(())
+}
+
+fn diag(diagnostics: Res<Diagnostics>) {
+    let buffers = diagnostics.get_measurement(WgpuResourceDiagnosticsPlugin::SHADER_MODULES);
+    println!("{}", buffers.unwrap().value)
 }
 
 fn setup_cameras(
