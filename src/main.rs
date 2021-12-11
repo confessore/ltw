@@ -59,11 +59,11 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                 .with_system(defaultsystem::setup))
         .add_system_set(
             SystemSet::on_update(GameState::Default)
-                .with_system(diag)
+                //.with_system(diag)
                 .with_system(move_unit)
                 .with_system(focus_camera)
                 .with_system(menu))
-        .add_plugin(WgpuResourceDiagnosticsPlugin::default())
+        //.add_plugin(WgpuResourceDiagnosticsPlugin::default())
         //.add_system_set(
         //    SystemSet::on_enter(PlayerState::Menu)
         //        .with_system(lol))
@@ -72,9 +72,18 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     Ok(())
 }
 
-fn diag(diagnostics: Res<Diagnostics>) {
-    let buffers = diagnostics.get_measurement(WgpuResourceDiagnosticsPlugin::SHADER_MODULES);
-    println!("{}", buffers.unwrap().value)
+fn diag(
+    mut windows: ResMut<Windows>,
+    //diagnostics: Res<Diagnostics>,
+    input: Res<Input<KeyCode>>) {
+    //let buffers = diagnostics.get_measurement(WgpuResourceDiagnosticsPlugin::SHADER_MODULES);
+    //println!("{}", buffers.unwrap().value)
+    let window = windows.get_primary_mut().unwrap();
+    if input.just_pressed(KeyCode::Up) {
+        window.set_scale_factor_override(window.scale_factor_override().map(|n| n + 1.));
+    } else if input.just_pressed(KeyCode::Down) {
+        window.set_scale_factor_override(window.scale_factor_override().map(|n| (n - 1.).max(1.)));
+    }
 }
 
 fn setup_cameras(
