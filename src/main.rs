@@ -42,7 +42,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         })
         .insert_resource(WindowDescriptor {
             title: String::from("ltw"),
-            //mode: WindowMode::Fullscreen,
+            mode: WindowMode::BorderlessFullscreen,
             width: 1280.0,
             height: 720.0,
             ..Default::default()
@@ -59,7 +59,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                 .with_system(defaultsystem::setup))
         .add_system_set(
             SystemSet::on_update(GameState::Default)
-                //.with_system(diag)
+                .with_system(toggle_override)
+                .with_system(change_scale_factor)
                 .with_system(move_unit)
                 .with_system(focus_camera)
                 .with_system(menu))
@@ -72,12 +73,16 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     Ok(())
 }
 
-fn diag(
-    mut windows: ResMut<Windows>,
-    //diagnostics: Res<Diagnostics>,
-    input: Res<Input<KeyCode>>) {
-    //let buffers = diagnostics.get_measurement(WgpuResourceDiagnosticsPlugin::SHADER_MODULES);
-    //println!("{}", buffers.unwrap().value)
+/// This system toggles scale factor overrides when enter is pressed
+fn toggle_override(input: Res<Input<KeyCode>>, mut windows: ResMut<Windows>) {
+    let window = windows.get_primary_mut().unwrap();
+    if input.just_pressed(KeyCode::Return) {
+        window.set_scale_factor_override(window.scale_factor_override().xor(Some(1.)));
+    }
+}
+
+/// This system changes the scale factor override when up or down is pressed
+fn change_scale_factor(input: Res<Input<KeyCode>>, mut windows: ResMut<Windows>) {
     let window = windows.get_primary_mut().unwrap();
     if input.just_pressed(KeyCode::Up) {
         window.set_scale_factor_override(window.scale_factor_override().map(|n| n + 1.));
