@@ -59,7 +59,6 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         //.add_startup_system(setup_cameras)
         .add_system_set(
             SystemSet::on_enter(GameState::Default)
-                //.with_system(setup)
                 .with_system(defaultsystem::setup))
         .add_system_set(
             SystemSet::on_update(GameState::Default)
