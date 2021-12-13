@@ -1,20 +1,22 @@
+
+use crate::material::menubuttonmaterial::MenuButtonMaterial;
 use bevy::prelude::*;
 
 pub fn setup(
     mut commands: Commands,
     mut materials: ResMut<Assets<ColorMaterial>>,
-    asset_server: Res<AssetServer>
+    asset_server: Res<AssetServer>,
+    menu_button_material: Res<MenuButtonMaterial>
 ) {
     // ui camera
     commands.spawn_bundle(UiCameraBundle::default());
     // root node
     commands.spawn_bundle(NodeBundle {
         style: Style {
-            size: Size::new(Val::Percent(15.0), Val::Percent(100.0)),
-            flex_direction: FlexDirection::Column,
-            flex_wrap: FlexWrap::Wrap,
-            align_content: AlignContent::SpaceBetween,
-            justify_content: JustifyContent::SpaceBetween,
+            size: Size::new(Val::Percent(100.0), Val::Percent(100.0)),
+            flex_direction: FlexDirection::Row,
+            justify_content: JustifyContent::FlexEnd,
+            align_items: AlignItems::FlexEnd,
             ..Default::default()
         },
         material: materials.add(Color::NONE.into()),
@@ -24,7 +26,7 @@ pub fn setup(
         // left vertical border node
         parent.spawn_bundle(NodeBundle {
             style: Style {
-                size: Size::new(Val::Percent(100.0), Val::Percent(100.0)),
+                size: Size::new(Val::Percent(15.0), Val::Percent(100.0)),
                 border: Rect::all(Val::Px(2.0)),
                 ..Default::default()
             },
@@ -36,6 +38,8 @@ pub fn setup(
             parent.spawn_bundle(NodeBundle {
                 style: Style {
                     size: Size::new(Val::Percent(100.0), Val::Percent(100.0)),
+                    flex_direction: FlexDirection::ColumnReverse,
+                    flex_wrap: FlexWrap::Wrap,
                     align_content: AlignContent::SpaceBetween,
                     justify_content: JustifyContent::SpaceBetween,
                     ..Default::default()
@@ -44,40 +48,123 @@ pub fn setup(
                 ..Default::default()
             })
             .with_children(|parent| {
-                parent.spawn_bundle(NodeBundle {
+                parent.spawn_bundle(ButtonBundle {
                     style: Style {
-                        size: Size::new(Val::Percent(100.0), Val::Percent(5.0)),
-                        align_content: AlignContent::SpaceBetween,
-                        justify_content: JustifyContent::SpaceBetween,
+                        size: Size::new(Val::Px(150.0), Val::Px(65.0)),
+                        // center button
+                        margin: Rect::all(Val::Auto),
+                        // horizontally center child text
+                        justify_content: JustifyContent::Center,
+                        // vertically center child text
+                        align_items: AlignItems::Center,
                         ..Default::default()
                     },
-                    material: materials.add(Color::rgb(0.15, 0.15, 0.15).into()),
+                    material: menu_button_material.normal.clone(),
                     ..Default::default()
                 })
                 .with_children(|parent| {
                     parent.spawn_bundle(TextBundle {
-                        style: Style {
-                            size: Size::new(Val::Percent(100.0), Val::Percent(100.0)),
-                            align_content: AlignContent::SpaceBetween,
-                            justify_content: JustifyContent::SpaceBetween,
-                            margin: Rect::all(Val::Px(5.0)),
-                            ..Default::default()
-                        },
                         text: Text::with_section(
-                            "Text Example",
+                            "play",
                             TextStyle {
                                 font: asset_server.load("fonts/FiraSans-Bold.ttf"),
-                                font_size: 30.0,
-                                color: Color::WHITE
+                                font_size: 40.0,
+                                color: Color::rgb(0.9, 0.9, 0.9),
                             },
-                            TextAlignment {
-                                horizontal: HorizontalAlign::Center,
-                                vertical: VerticalAlign::Center
-                            }),
+                            Default::default(),
+                        ),
+                        ..Default::default()
+                    });
+                });
+            })
+            .with_children(|parent| {
+                parent.spawn_bundle(ButtonBundle {
+                    style: Style {
+                        size: Size::new(Val::Px(150.0), Val::Px(65.0)),
+                        // center button
+                        margin: Rect::all(Val::Auto),
+                        // horizontally center child text
+                        justify_content: JustifyContent::Center,
+                        // vertically center child text
+                        align_items: AlignItems::Center,
+                        ..Default::default()
+                    },
+                    material: menu_button_material.normal.clone(),
+                    ..Default::default()
+                })
+                .with_children(|parent| {
+                    parent.spawn_bundle(TextBundle {
+                        text: Text::with_section(
+                            "options",
+                            TextStyle {
+                                font: asset_server.load("fonts/FiraSans-Bold.ttf"),
+                                font_size: 40.0,
+                                color: Color::rgb(0.9, 0.9, 0.9),
+                            },
+                            Default::default(),
+                        ),
+                        ..Default::default()
+                    });
+                });
+            })
+            .with_children(|parent| {
+                parent.spawn_bundle(ButtonBundle {
+                    style: Style {
+                        size: Size::new(Val::Px(150.0), Val::Px(65.0)),
+                        // center button
+                        margin: Rect::all(Val::Auto),
+                        // horizontally center child text
+                        justify_content: JustifyContent::Center,
+                        // vertically center child text
+                        align_items: AlignItems::Center,
+                        ..Default::default()
+                    },
+                    material: menu_button_material.normal.clone(),
+                    ..Default::default()
+                })
+                .with_children(|parent| {
+                    parent.spawn_bundle(TextBundle {
+                        text: Text::with_section(
+                            "exit",
+                            TextStyle {
+                                font: asset_server.load("fonts/FiraSans-Bold.ttf"),
+                                font_size: 40.0,
+                                color: Color::rgb(0.9, 0.9, 0.9),
+                            },
+                            Default::default(),
+                        ),
                         ..Default::default()
                     });
                 });
             });
         });
     });
+}
+
+pub fn button_system(
+    button_materials: Res<MenuButtonMaterial>,
+    mut interaction_query: Query<
+        (&Interaction, &mut Handle<ColorMaterial>, &Children),
+        (Changed<Interaction>, With<Button>),
+    >,
+    mut text_query: Query<&mut Text>,
+) {
+    for (interaction, mut material, children) in interaction_query.iter_mut() {
+        let mut text = text_query.get_mut(children[0]).unwrap();
+        match *interaction {
+            Interaction::Clicked => {
+                //text.sections[0].value = "Play".to_string();
+                *material = button_materials.pressed.clone();
+                std::process::exit(0);
+            }
+            Interaction::Hovered => {
+                //text.sections[0].value = "Play".to_string();
+                *material = button_materials.hovered.clone();
+            }
+            Interaction::None => {
+                //text.sections[0].value = "Play".to_string();
+                *material = button_materials.normal.clone();
+            }
+        }
+    }
 }

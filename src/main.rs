@@ -19,6 +19,9 @@ use bevy_ggrs::{
     GGRSPlugin
 };
 use ltw::{
+    material::{
+        menubuttonmaterial::MenuButtonMaterial
+    },
     system::{
         defaultsystem,
         movementsystem
@@ -47,11 +50,12 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             height: 720.0,
             ..Default::default()
         })
-        .init_resource::<Game>()
         .add_plugins(DefaultPlugins)
-        .add_plugin(GGRSPlugin)
+        //.add_plugin(GGRSPlugin)
         .add_state(GameState::Default)
         .add_state(PlayerState::Default)
+        .init_resource::<Game>()
+        .init_resource::<MenuButtonMaterial>()
         .add_startup_system(setup_cameras)
         .add_system_set(
             SystemSet::on_enter(GameState::Default)
@@ -59,11 +63,12 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                 .with_system(defaultsystem::setup))
         .add_system_set(
             SystemSet::on_update(GameState::Default)
-                .with_system(toggle_override)
-                .with_system(change_scale_factor)
-                .with_system(move_unit)
-                .with_system(focus_camera)
-                .with_system(menu))
+                .with_system(defaultsystem::button_system))
+                //.with_system(toggle_override)
+                //.with_system(change_scale_factor)
+                //.with_system(move_unit)
+                //.with_system(focus_camera)
+                //.with_system(menu))
         //.add_plugin(WgpuResourceDiagnosticsPlugin::default())
         //.add_system_set(
         //    SystemSet::on_enter(PlayerState::Menu)
