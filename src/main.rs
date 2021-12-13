@@ -56,7 +56,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         .add_state(PlayerState::Default)
         .init_resource::<Game>()
         .init_resource::<MenuButtonMaterial>()
-        .add_startup_system(setup_cameras)
+        //.add_startup_system(setup_cameras)
         .add_system_set(
             SystemSet::on_enter(GameState::Default)
                 //.with_system(setup)
@@ -64,11 +64,21 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         .add_system_set(
             SystemSet::on_update(GameState::Default)
                 .with_system(defaultsystem::button_system))
-                //.with_system(toggle_override)
-                //.with_system(change_scale_factor)
-                //.with_system(move_unit)
-                //.with_system(focus_camera)
-                //.with_system(menu))
+        .add_system_set(
+            SystemSet::on_exit(GameState::Default)
+                .with_system(defaultsystem::teardown))
+        .add_system_set(
+            SystemSet::on_enter(GameState::Playing)
+                .with_system(setup_cameras)
+                .with_system(setup))
+        .add_system_set(
+            SystemSet::on_update(GameState::Playing)
+                .with_system(move_unit)
+                .with_system(focus_camera)
+                .with_system(menu))
+        .add_system_set(
+            SystemSet::on_exit(GameState::Playing)
+                .with_system(defaultsystem::teardown))
         //.add_plugin(WgpuResourceDiagnosticsPlugin::default())
         //.add_system_set(
         //    SystemSet::on_enter(PlayerState::Menu)

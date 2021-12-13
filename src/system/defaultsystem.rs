@@ -1,5 +1,8 @@
 
-use crate::material::menubuttonmaterial::MenuButtonMaterial;
+use crate::{
+    GameState,
+    material::menubuttonmaterial::MenuButtonMaterial
+};
 use bevy::prelude::*;
 
 pub fn setup(
@@ -141,21 +144,52 @@ pub fn setup(
     });
 }
 
+pub fn teardown(mut commands: Commands, entities: Query<Entity>) {
+    for entity in entities.iter() {
+        commands.entity(entity).despawn_recursive();
+    }
+}
+
 pub fn button_system(
+    mut game_state: ResMut<State<GameState>>,
     button_materials: Res<MenuButtonMaterial>,
     mut interaction_query: Query<
         (&Interaction, &mut Handle<ColorMaterial>, &Children),
         (Changed<Interaction>, With<Button>),
     >,
-    mut text_query: Query<&mut Text>,
+    text_query: Query<&Text>,
 ) {
     for (interaction, mut material, children) in interaction_query.iter_mut() {
-        let mut text = text_query.get_mut(children[0]).unwrap();
+        let text = text_query.get(children[0]).unwrap();
         match *interaction {
             Interaction::Clicked => {
                 //text.sections[0].value = "Play".to_string();
                 *material = button_materials.pressed.clone();
-                std::process::exit(0);
+                //text.sections[0].value {
+                //    "exit" => {
+                //        std::process::exit(0);
+                //    }
+                //}
+                match text.sections[0].value.as_str() {
+                    "play" => {
+                        let state = game_state.current();
+                        match *state {
+                            GameState::Default => {
+                                game_state.set(GameState::Playing).unwrap();
+                                return;
+                            },
+                            _ => {
+
+                            }
+                        }
+                    },
+                    "exit" => {
+                        std::process::exit(0);
+                    },
+                    _ => {
+                        std::process::exit(-1);
+                    }
+                }
             }
             Interaction::Hovered => {
                 //text.sections[0].value = "Play".to_string();
