@@ -42,7 +42,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         })
         .insert_resource(WindowDescriptor {
             title: String::from("ltw"),
-            mode: WindowMode::BorderlessFullscreen,
+            //mode: WindowMode::BorderlessFullscreen,
             width: 1280.0,
             height: 720.0,
             ..Default::default()
@@ -55,7 +55,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         .add_startup_system(setup_cameras)
         .add_system_set(
             SystemSet::on_enter(GameState::Default)
-                .with_system(setup)
+                //.with_system(setup)
                 .with_system(defaultsystem::setup))
         .add_system_set(
             SystemSet::on_update(GameState::Default)
