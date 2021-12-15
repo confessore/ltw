@@ -9,7 +9,7 @@ pub fn setup(
     mut commands: Commands,
     mut materials: ResMut<Assets<ColorMaterial>>,
     asset_server: Res<AssetServer>,
-    menu_button_material: Res<MenuButtonMaterial>
+    menu_button_material: Res<MenuButton>
 ) {
     // ui camera
     commands.spawn_bundle(UiCameraBundle::default());
@@ -152,7 +152,7 @@ pub fn teardown(mut commands: Commands, entities: Query<Entity>) {
 
 pub fn button_system(
     mut game_state: ResMut<State<GameState>>,
-    button_materials: Res<MenuButtonMaterial>,
+    button_materials: Res<MenuButton>,
     mut interaction_query: Query<
         (&Interaction, &mut Handle<ColorMaterial>, &Children),
         (Changed<Interaction>, With<Button>),

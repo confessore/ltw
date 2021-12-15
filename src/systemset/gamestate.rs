@@ -1,2 +1,2 @@
-pub mod defaultsystem;
-pub mod movementsystem;
+pub mod default;
+pub mod movement;

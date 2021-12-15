@@ -58,7 +58,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         .add_state(PlayerState::Default)
 
         .init_resource::<Game>()
-        .init_resource::<MenuButtonMaterial>()
+        .init_resource::<MenuButton>()
         //.add_startup_system(setup_cameras)
 
 
@@ -278,13 +278,10 @@ fn menu(
             let state = player_state.current();
             match *state {
                 PlayerState::Menu => {
-                    player_state.set(PlayerState::Playing).unwrap();
-                },
-                PlayerState::Playing => {
-                    player_state.set(PlayerState::Menu).unwrap();
+                    player_state.set(PlayerState::Default).unwrap();
                 },
                 _ => {
-                    
+                    player_state.set(PlayerState::Menu).unwrap();
                 }
             }
         }

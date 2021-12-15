@@ -1,1 +1,1 @@
-pub mod menubuttonmaterial;
+pub mod menubutton;
