@@ -20,11 +20,11 @@ use bevy_ggrs::{
 };
 use ltw::{
     material::{
-        menubuttonmaterial::MenuButtonMaterial
+        menubutton::MenuButton
     },
-    system::{
-        defaultsystem,
-        movementsystem
+    systemset::{
+        gamestate,
+        playerstate
     },
     Game,
     GameState,
@@ -50,22 +50,27 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             height: 720.0,
             ..Default::default()
         })
+
         .add_plugins(DefaultPlugins)
         //.add_plugin(GGRSPlugin)
+
         .add_state(GameState::Default)
         .add_state(PlayerState::Default)
+
         .init_resource::<Game>()
         .init_resource::<MenuButtonMaterial>()
         //.add_startup_system(setup_cameras)
+
+
         .add_system_set(
             SystemSet::on_enter(GameState::Default)
-                .with_system(defaultsystem::setup))
+                .with_system(gamestate::default::setup))
         .add_system_set(
             SystemSet::on_update(GameState::Default)
-                .with_system(defaultsystem::button_system))
+                .with_system(gamestate::default::button_system))
         .add_system_set(
             SystemSet::on_exit(GameState::Default)
-                .with_system(defaultsystem::teardown))
+                .with_system(gamestate::default::teardown))
         .add_system_set(
             SystemSet::on_enter(GameState::Playing)
                 .with_system(setup_cameras)
@@ -77,7 +82,30 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                 .with_system(menu))
         .add_system_set(
             SystemSet::on_exit(GameState::Playing)
-                .with_system(defaultsystem::teardown))
+                .with_system(gamestate::default::teardown))
+
+        /*.add_system_set(
+            SystemSet::on_enter(PlayerState::Default)
+                .with_system())
+        .add_system_set(
+            SystemSet::on_update(PlayerState::Default)
+                .with_system())
+        .add_system_set(
+            SystemSet::on_exit(PlayerState::Default)
+                .with_system())
+        .add_system_set(
+            SystemSet::on_enter(PlayerState::Menu)
+                .with_system())
+        .add_system_set(
+            SystemSet::on_update(PlayerState::Menu)
+                .with_system())
+        .add_system_set(
+            SystemSet::on_exit(PlayerState::Menu)
+                .with_system())*/
+
+        
+
+        
         //.add_plugin(WgpuResourceDiagnosticsPlugin::default())
         //.add_system_set(
         //    SystemSet::on_enter(PlayerState::Menu)
@@ -85,24 +113,6 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         //.add_system(bevy::input::system::exit_on_esc_system)
         .run();
     Ok(())
-}
-
-/// This system toggles scale factor overrides when enter is pressed
-fn toggle_override(input: Res<Input<KeyCode>>, mut windows: ResMut<Windows>) {
-    let window = windows.get_primary_mut().unwrap();
-    if input.just_pressed(KeyCode::Return) {
-        window.set_scale_factor_override(window.scale_factor_override().xor(Some(1.)));
-    }
-}
-
-/// This system changes the scale factor override when up or down is pressed
-fn change_scale_factor(input: Res<Input<KeyCode>>, mut windows: ResMut<Windows>) {
-    let window = windows.get_primary_mut().unwrap();
-    if input.just_pressed(KeyCode::Up) {
-        window.set_scale_factor_override(window.scale_factor_override().map(|n| n + 1.));
-    } else if input.just_pressed(KeyCode::Down) {
-        window.set_scale_factor_override(window.scale_factor_override().map(|n| (n - 1.).max(1.)));
-    }
 }
 
 fn setup_cameras(
@@ -266,15 +276,16 @@ fn menu(
     keyboard_input: Res<Input<KeyCode>>) {
         if keyboard_input.just_pressed(KeyCode::Escape) {
             let state = player_state.current();
-            if *state == PlayerState::Playing {
-                player_state.set(PlayerState::Menu).unwrap();
-                return;
-            }
-            else if *state == PlayerState::Menu {
-                player_state.set(PlayerState::Playing).unwrap();
-                return;
-            } else {
-                return;
+            match *state {
+                PlayerState::Menu => {
+                    player_state.set(PlayerState::Playing).unwrap();
+                },
+                PlayerState::Playing => {
+                    player_state.set(PlayerState::Menu).unwrap();
+                },
+                _ => {
+                    
+                }
             }
         }
 }

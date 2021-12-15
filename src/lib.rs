@@ -6,7 +6,7 @@ pub mod game;
 pub mod material;
 pub mod player;
 pub mod state;
-pub mod system;
+pub mod systemset;
 pub mod tile;
 pub mod unit;
 pub use crate::{
@@ -25,7 +25,7 @@ pub use crate::{
         Game
     },
     material::{
-        menubuttonmaterial::{
+        menubutton::{
             
         }
     },
@@ -36,12 +36,13 @@ pub use crate::{
         GameState,
         PlayerState
     },
-    system::{
-        defaultsystem::{
-            
+    systemset::{
+        gamestate::{
+            default,
+            movement
         },
-        movementsystem::{
-            
+        playerstate::{
+
         }
     },
     tile::{

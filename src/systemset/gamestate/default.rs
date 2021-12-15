@@ -1,7 +1,7 @@
 
 use crate::{
     GameState,
-    material::menubuttonmaterial::MenuButtonMaterial
+    material::menubutton::MenuButton
 };
 use bevy::prelude::*;
 
