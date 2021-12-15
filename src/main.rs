@@ -25,9 +25,9 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     //assert!(players > 0);
     //let mut p2p_session = P2PSession::new(players, )
     App::new()
-        .insert_resource(Msaa {
+        /*.insert_resource(Msaa {
             samples: 4
-        })
+        })*/
         .insert_resource(WindowDescriptor {
             title: String::from("ltw"),
             //mode: WindowMode::BorderlessFullscreen,

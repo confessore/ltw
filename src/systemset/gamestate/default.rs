@@ -1,7 +1,7 @@
 
 use crate::{
-    GameState,
-    material::menubutton
+    button,
+    GameState
 };
 use bevy::prelude::*;
 
@@ -60,7 +60,7 @@ pub fn setup(
                         align_items: AlignItems::Center,
                         ..Default::default()
                     },
-                    color: menubutton::NORMAL.into(),
+                    color: button::default::NORMAL.into(),
                     ..Default::default()
                 })
                 .with_children(|parent| {
@@ -90,7 +90,7 @@ pub fn setup(
                         align_items: AlignItems::Center,
                         ..Default::default()
                     },
-                    color: menubutton::NORMAL.into(),
+                    color: button::default::NORMAL.into(),
                     ..Default::default()
                 })
                 .with_children(|parent| {
@@ -120,7 +120,7 @@ pub fn setup(
                         align_items: AlignItems::Center,
                         ..Default::default()
                     },
-                    color: menubutton::NORMAL.into(),
+                    color: button::default::NORMAL.into(),
                     ..Default::default()
                 })
                 .with_children(|parent| {
@@ -161,7 +161,7 @@ pub fn button_system(
         match *interaction {
             Interaction::Clicked => {
                 //text.sections[0].value = "Play".to_string();
-                *material = menubutton::PRESSED.into();
+                *material = button::default::PRESSED.into();
                 //text.sections[0].value {
                 //    "exit" => {
                 //        std::process::exit(0);
@@ -190,11 +190,11 @@ pub fn button_system(
             }
             Interaction::Hovered => {
                 //text.sections[0].value = "Play".to_string();
-                *material = menubutton::HOVERED.into();
+                *material = button::default::HOVERED.into();
             }
             Interaction::None => {
                 //text.sections[0].value = "Play".to_string();
-                *material = menubutton::NORMAL.into();
+                *material = button::default::NORMAL.into();
             }
         }
     }
