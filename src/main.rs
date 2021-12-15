@@ -1,37 +1,22 @@
 use bevy::{
     ecs::schedule::SystemSet,
-    diagnostic::{
-        Diagnostics
-    },
     prelude::*,
     render::{
-        camera::Camera,
-        render_graph::base::camera::CAMERA_3D
-    },
-    window::WindowMode,
-    wgpu::{
-        diagnostic::{
-            WgpuResourceDiagnosticsPlugin
+        camera::{
+            Camera,
+            CameraPlugin
         }
     }
 };
-use bevy_ggrs::{
-    GGRSPlugin
-};
 use ltw::{
-    material::{
-        menubutton::MenuButton
-    },
     systemset::{
-        gamestate,
-        playerstate
+        gamestate
     },
     Game,
     GameState,
     PlayerState,
     Tile
 };
-use rand::Rng;
 use structopt::StructOpt;
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -58,7 +43,6 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         .add_state(PlayerState::Default)
 
         .init_resource::<Game>()
-        .init_resource::<MenuButton>()
         //.add_startup_system(setup_cameras)
 
 
@@ -143,7 +127,9 @@ fn setup(
                 color: Color::rgb(0.9, 0.9, 0.9),
                 intensity: 500.0,
                 range: 50.0,
-                radius: 0.0
+                radius: 0.0,
+                shadows_enabled: false,
+                ..Default::default()
             },
             transform: Transform::from_xyz(BOARD_SIZE_X as f32 / 2.0, 5.0, BOARD_SIZE_Y as f32 / 2.0),
             ..Default::default()
@@ -261,7 +247,7 @@ fn focus_camera(mut game: ResMut<Game>,
             game.camera_from += camera_motion;
         }
         for (mut transform, camera) in transforms.q0().iter_mut() {
-            if camera.name == Some(CAMERA_3D.to_string()) {
+            if camera.name == Some(CameraPlugin::CAMERA_3D.to_string()) {
                 *transform = transform.looking_at(game.camera_from, Vec3::Y);
             }
         }

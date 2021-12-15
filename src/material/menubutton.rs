@@ -1,18 +1,5 @@
 use bevy::prelude::*;
 
-pub struct MenuButton {
-    pub normal: Handle<ColorMaterial>,
-    pub hovered: Handle<ColorMaterial>,
-    pub pressed: Handle<ColorMaterial>,
-}
-
-impl FromWorld for MenuButton {
-    fn from_world(world: &mut World) -> Self {
-        let mut materials = world.get_resource_mut::<Assets<ColorMaterial>>().unwrap();
-        MenuButton {
-            normal: materials.add(Color::rgb(0.15, 0.15, 0.15).into()),
-            hovered: materials.add(Color::rgb(0.25, 0.25, 0.25).into()),
-            pressed: materials.add(Color::rgb(0.35, 0.75, 0.35).into()),
-        }
-    }
-}
+pub const NORMAL: Color = Color::rgb(0.15, 0.15, 0.15);
+pub const HOVERED: Color = Color::rgb(0.25, 0.25, 0.25);
+pub const PRESSED: Color = Color::rgb(0.35, 0.75, 0.35);

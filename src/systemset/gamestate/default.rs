@@ -1,15 +1,13 @@
 
 use crate::{
     GameState,
-    material::menubutton::MenuButton
+    material::menubutton
 };
 use bevy::prelude::*;
 
 pub fn setup(
     mut commands: Commands,
-    mut materials: ResMut<Assets<ColorMaterial>>,
-    asset_server: Res<AssetServer>,
-    menu_button_material: Res<MenuButton>
+    asset_server: Res<AssetServer>
 ) {
     // ui camera
     commands.spawn_bundle(UiCameraBundle::default());
@@ -22,7 +20,7 @@ pub fn setup(
             align_items: AlignItems::FlexEnd,
             ..Default::default()
         },
-        material: materials.add(Color::NONE.into()),
+        color: Color::NONE.into(),
         ..Default::default()
     })
     .with_children(|parent| {
@@ -33,7 +31,7 @@ pub fn setup(
                 border: Rect::all(Val::Px(2.0)),
                 ..Default::default()
             },
-            material: materials.add(Color::rgb(0.65, 0.65, 0.65).into()),
+            color: Color::rgb(0.65, 0.65, 0.65).into(),
             ..Default::default()
         })
         .with_children(|parent| {
@@ -47,7 +45,7 @@ pub fn setup(
                     justify_content: JustifyContent::SpaceBetween,
                     ..Default::default()
                 },
-                material: materials.add(Color::rgb(0.15, 0.15, 0.15).into()),
+                color: Color::rgb(0.15, 0.15, 0.15).into(),
                 ..Default::default()
             })
             .with_children(|parent| {
@@ -62,7 +60,7 @@ pub fn setup(
                         align_items: AlignItems::Center,
                         ..Default::default()
                     },
-                    material: menu_button_material.normal.clone(),
+                    color: menubutton::NORMAL.into(),
                     ..Default::default()
                 })
                 .with_children(|parent| {
@@ -92,7 +90,7 @@ pub fn setup(
                         align_items: AlignItems::Center,
                         ..Default::default()
                     },
-                    material: menu_button_material.normal.clone(),
+                    color: menubutton::NORMAL.into(),
                     ..Default::default()
                 })
                 .with_children(|parent| {
@@ -122,7 +120,7 @@ pub fn setup(
                         align_items: AlignItems::Center,
                         ..Default::default()
                     },
-                    material: menu_button_material.normal.clone(),
+                    color: menubutton::NORMAL.into(),
                     ..Default::default()
                 })
                 .with_children(|parent| {
@@ -152,9 +150,8 @@ pub fn teardown(mut commands: Commands, entities: Query<Entity>) {
 
 pub fn button_system(
     mut game_state: ResMut<State<GameState>>,
-    button_materials: Res<MenuButton>,
     mut interaction_query: Query<
-        (&Interaction, &mut Handle<ColorMaterial>, &Children),
+        (&Interaction, &mut UiColor, &Children),
         (Changed<Interaction>, With<Button>),
     >,
     text_query: Query<&Text>,
@@ -164,7 +161,7 @@ pub fn button_system(
         match *interaction {
             Interaction::Clicked => {
                 //text.sections[0].value = "Play".to_string();
-                *material = button_materials.pressed.clone();
+                *material = menubutton::PRESSED.into();
                 //text.sections[0].value {
                 //    "exit" => {
                 //        std::process::exit(0);
@@ -193,11 +190,11 @@ pub fn button_system(
             }
             Interaction::Hovered => {
                 //text.sections[0].value = "Play".to_string();
-                *material = button_materials.hovered.clone();
+                *material = menubutton::HOVERED.into();
             }
             Interaction::None => {
                 //text.sections[0].value = "Play".to_string();
-                *material = button_materials.normal.clone();
+                *material = menubutton::NORMAL.into();
             }
         }
     }
