@@ -18,6 +18,9 @@ pub struct Unit {
     pub burrowed: bool,
     pub cloaked: bool,
     pub flying: bool,
+    pub harvestable: bool,
+    pub immune: bool,
+    pub targetable: bool,
 
     pub movement: f32,
     pub actions: u32,

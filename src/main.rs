@@ -169,9 +169,10 @@ fn setup(
         game.unit.x = BOARD_SIZE_X / 2;
         game.unit.y = BOARD_SIZE_Y / 2;
         let character = asset_server.load("models/character.glb#Scene0");
+        let tree = asset_server.load("models/character.glb#Scene0");
         game.unit.entity = Some(
             commands.spawn_bundle(PbrBundle {
-                transform: Transform::from_xyz(BOARD_SIZE_X as f32 / 2.0, 2.0, BOARD_SIZE_Y as f32 / 2.0),
+                transform: Transform::from_xyz(BOARD_SIZE_X as f32 / 2.0, 2.5, BOARD_SIZE_Y as f32 / 2.0),
                 ..Default::default()
             })
             .with_children(|unit| {
@@ -179,6 +180,13 @@ fn setup(
             })
             .id()
         );
+        commands.spawn_bundle(PbrBundle {
+            transform: Transform::from_xyz(BOARD_SIZE_X as f32 / 4.0, 2.5, BOARD_SIZE_Y as f32 / 4.0),
+            ..Default::default()
+        })
+        .with_children(|unit| {
+            unit.spawn_scene(tree);
+        });
 }
 
 fn move_unit(
