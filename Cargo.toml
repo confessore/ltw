@@ -17,10 +17,6 @@ path = "src/main.rs"
 rand = { version = "^0.8" }
 structopt = { version = "^0.3" }
 
-[dependencies.ggrs]
-git = "https://github.com/gschup/ggrs"
-branch = "main"
-
 [dependencies.bevy]
 git = "https://github.com/bevyengine/bevy"
 branch = "main"
@@ -28,4 +24,16 @@ features = ["bevy_gltf"]
 
 [dependencies.bevy_ggrs]
 git = "https://github.com/gschup/bevy_ggrs"
+branch = "main"
+
+[dependencies.bevy_mod_picking]
+git = "https://github.com/aevyrie/bevy_mod_picking"
+branch = "master"
+
+[dependencies.ggrs]
+git = "https://github.com/gschup/ggrs"
+branch = "main"
+
+[patch.crates-io.bevy]
+git = "https://github.com/bevyengine/bevy"
 branch = "main"

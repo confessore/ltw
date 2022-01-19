@@ -4,7 +4,7 @@ use ggrs::{
     GameInput
 };
 
-#[derive(Default, Copy, Clone, Reflect, Hash)]
+//#[derive(Default, Copy, Clone, Reflect, Hash)]
 pub struct Action {
     pub input: InputAction,
     pub target_x: usize,
@@ -36,9 +36,9 @@ impl Action {
     }
 }
 
-#[derive(Default, Copy, Clone, Reflect, Hash)]
+#[derive(/*Default,*/ Copy, Clone, Reflect, Hash)]
 pub enum InputAction {
-    #[default]
+    //#[default]
     Default,
     Ability,
     Attack,
@@ -54,7 +54,8 @@ impl From<u8> for InputAction {
             0x2 => InputAction::Attack,
             0x3 => InputAction::Item,
             0x4 => InputAction::Move,
-            _ => InputAction::default()
+            //_ => InputAction::default()
+            _ => InputAction::Default
         }
     }
 }

@@ -20,6 +20,7 @@ pub struct Unit {
     pub flying: bool,
     pub harvestable: bool,
     pub immune: bool,
+    pub selectable: bool,
     pub targetable: bool,
 
     pub movement: f32,
