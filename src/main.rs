@@ -10,9 +10,6 @@ use bevy::{
 };
 use bevy_mod_picking::*;
 use ltw::{
-    raycastset::{
-        DefaultRaycastSet
-    },
     systemset::{
         gamestate,
         playerstate
@@ -51,17 +48,15 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
         .init_resource::<Game>()
         //.add_startup_system(setup_cameras)
-
-
         .add_system_set(
             SystemSet::on_enter(GameState::Default)
-                .with_system(gamestate::default::setup))
+                .with_system(gamestate::default::setup::setup))
         .add_system_set(
             SystemSet::on_update(GameState::Default)
-                .with_system(gamestate::default::button_system))
+                .with_system(gamestate::default::ui::button_system))
         .add_system_set(
             SystemSet::on_exit(GameState::Default)
-                .with_system(gamestate::default::teardown))
+                .with_system(gamestate::default::teardown::teardown))
         .add_system_set(
             SystemSet::on_enter(GameState::Playing)
                 .with_system(gamestate::playing::setup::setup_cameras)
@@ -71,12 +66,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                 .with_system(gamestate::playing::movement::move_unit)
                 .with_system(gamestate::playing::camera::focus_camera))
         .add_system_set(
-            SystemSet::on_update(PlayerState::Menu)
-                .with_system(playerstate::menu::setup::setup))
-        .add_system_set(
             SystemSet::on_exit(GameState::Playing)
-                .with_system(gamestate::default::teardown))
-
+                .with_system(gamestate::playing::teardown::teardown))
         /*.add_system_set(
             SystemSet::on_enter(PlayerState::Default)
                 .with_system())
@@ -95,10 +86,6 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         .add_system_set(
             SystemSet::on_exit(PlayerState::Menu)
                 .with_system())*/
-
-        
-
-        
         //.add_plugin(WgpuResourceDiagnosticsPlugin::default())
         //.add_system_set(
         //    SystemSet::on_enter(PlayerState::Menu)
@@ -106,12 +93,4 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         //.add_system(bevy::input::system::exit_on_esc_system)
         .run();
     Ok(())
-}
-
-fn lol() {
-    println!("menu");
-}
-
-fn start_p2p_session() {
-
 }
