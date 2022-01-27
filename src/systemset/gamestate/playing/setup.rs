@@ -96,3 +96,26 @@ pub fn setup(
             unit.spawn_scene(tree);
         });
 }
+
+pub struct PlayingMaterials {
+    pub tile_mesh: Handle<Mesh>,
+    pub white: Handle<StandardMaterial>,
+    pub black: Handle<StandardMaterial>,
+    pub character: Handle<Scene>
+}
+
+impl PlayingMaterials {
+    fn new(
+        mut meshes: ResMut<Assets<Mesh>>,
+        mut materials: ResMut<Assets<StandardMaterial>>,
+        asset_server: Res<AssetServer>) -> Self {
+        PlayingMaterials {
+            tile_mesh: meshes.add(Mesh::from(shape::Plane {
+                size: 1.0 
+            })),
+            white: materials.add(Color::rgb(1.0, 0.9, 0.9).into()),
+            black: materials.add(Color::rgb(0.0, 0.1, 0.1).into()),
+            character: asset_server.load("models/character.glb#Scene0")
+        }
+    }
+}
