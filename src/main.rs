@@ -35,13 +35,12 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             //mode: WindowMode::BorderlessFullscreen,
             width: 1280.0,
             height: 720.0,
-            vsync: false,
             ..Default::default()
         })
 
         .add_plugins(DefaultPlugins)
         //.add_plugin(GGRSPlugin)
-        .add_plugin(DefaultPickingPlugins)
+        .add_plugins(DefaultPickingPlugins)
 
         .add_state(GameState::Default)
         .add_state(PlayerState::Default)

@@ -12,8 +12,6 @@ pub mod unit;
 
 pub use crate::{
     action::{
-        Action,
-        InputAction
     },
     button::{
     },
