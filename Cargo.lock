@@ -502,7 +502,7 @@ dependencies = [
 [[package]]
 name = "bevy_mod_picking"
 version = "0.5.2"
-source = "git+https://github.com/aevyrie/bevy_mod_picking?branch=master#6bb588e4a71a48081d847da5fecbf76f042a4561"
+source = "git+https://github.com/aevyrie/bevy_mod_picking?branch=main#b24e13556a4832f61f473e41b2612c101e977296"
 dependencies = [
  "bevy",
  "bevy_mod_raycast",
@@ -511,7 +511,7 @@ dependencies = [
 [[package]]
 name = "bevy_mod_raycast"
 version = "0.3.7"
-source = "git+https://github.com/aevyrie/bevy_mod_raycast?branch=master#9dc7964eb71431e2dd42f961a91cc2291656d90c"
+source = "git+https://github.com/aevyrie/bevy_mod_raycast?branch=main#672f81046e7dc2981510b87bd5e1b42b52d70a13"
 dependencies = [
  "bevy",
 ]

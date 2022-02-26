@@ -28,7 +28,7 @@ branch = "main"
 
 [dependencies.bevy_mod_picking]
 git = "https://github.com/aevyrie/bevy_mod_picking"
-branch = "master"
+branch = "main"
 
 [dependencies.ggrs]
 git = "https://github.com/gschup/ggrs"
