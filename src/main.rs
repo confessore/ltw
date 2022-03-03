@@ -6,6 +6,9 @@ use bevy::{
             Camera,
             CameraPlugin
         }
+    },
+    window::{
+        WindowMode
     }
 };
 use bevy_mod_picking::*;
@@ -32,7 +35,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         })*/
         .insert_resource(WindowDescriptor {
             title: String::from("ltw"),
-            //mode: WindowMode::BorderlessFullscreen,
+            mode: WindowMode::Windowed,
             width: 1280.0,
             height: 720.0,
             ..Default::default()
@@ -41,7 +44,9 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         .add_plugins(DefaultPlugins)
         //.add_plugin(GGRSPlugin)
         .add_plugins(DefaultPickingPlugins)
-
+        .add_plugin(DebugCursorPickingPlugin) // <- Adds the green debug cursor.
+        .add_plugin(DebugEventsPickingPlugin) // <- Adds debug event logging.
+        
         .add_state(GameState::Default)
         .add_state(PlayerState::Default)
 

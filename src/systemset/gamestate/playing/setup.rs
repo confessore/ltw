@@ -6,6 +6,10 @@ use crate::{
     RESET_FOCUS
 };
 use bevy::prelude::*;
+use bevy_mod_picking::{
+    PickableBundle,
+    PickingCameraBundle
+};
 
 pub fn setup_cameras(
     mut commands: Commands,
@@ -20,7 +24,8 @@ pub fn setup_cameras(
             )
             .looking_at(game.camera_from, Vec3::Y),
             ..Default::default()
-        });
+        })
+        .insert_bundle(PickingCameraBundle::default());
         commands.spawn_bundle(UiCameraBundle::default());
 }
 
@@ -28,6 +33,7 @@ pub fn setup(
     mut commands: Commands,
     mut game: ResMut<Game>,
     mut meshes: ResMut<Assets<Mesh>>,
+    mut scenes: ResMut<Assets<Scene>>,
     mut materials: ResMut<Assets<StandardMaterial>>,
     asset_server: Res<AssetServer>) {
         commands.spawn_bundle(PointLightBundle {
@@ -59,14 +65,16 @@ pub fn setup(
                         mesh: tile_mesh.clone(),
                         material: {
                             if (x + y + 1) % 2 == 0 {
-                                white_material.clone()
+                                black_material.clone()
                             } else {
                                 black_material.clone()
                             }
                         },
                         ..Default::default()
-                    });
-                });
+                    })
+                    .insert_bundle(PickableBundle::default());
+                })
+                .insert_bundle(PickableBundle::default());
                 Tile { 
                     height: 0.0
                 }
@@ -78,6 +86,7 @@ pub fn setup(
         game.unit.y = BOARD_SIZE_Y / 2;
         let character = asset_server.load("models/character.glb#Scene0");
         let tree = asset_server.load("models/character.glb#Scene0");
+        //let tree_scene = scenes.get_mut(tree).unwrap();
         game.unit.entity = Some(
             commands.spawn_bundle(PbrBundle {
                 transform: Transform::from_xyz(BOARD_SIZE_X as f32 / 2.0, 2.5, BOARD_SIZE_Y as f32 / 2.0),
@@ -86,6 +95,7 @@ pub fn setup(
             .with_children(|unit| {
                 unit.spawn_scene(character);
             })
+            .insert_bundle(PickableBundle::default())
             .id()
         );
         commands.spawn_bundle(PbrBundle {
@@ -94,7 +104,8 @@ pub fn setup(
         })
         .with_children(|unit| {
             unit.spawn_scene(tree);
-        });
+        })
+        .insert_bundle(PickableBundle::default());
 }
 
 pub struct PlayingMaterials {

@@ -61,8 +61,8 @@ pub struct Opt {
 
 pub const SPEED: f32 = 2.0;
 
-pub const BOARD_SIZE_X: usize = 32;
-pub const BOARD_SIZE_Y: usize = 32;
+pub const BOARD_SIZE_X: usize = 16;
+pub const BOARD_SIZE_Y: usize = 16;
 
 pub const RESET_FOCUS: [f32; 3] = [
     BOARD_SIZE_X as f32 / 2.0,
