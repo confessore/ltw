@@ -7,10 +7,7 @@ use bevy::prelude::*;
 
 pub fn button_system(
     mut game_state: ResMut<State<GameState>>,
-    mut interaction_query: Query<
-        (&Interaction, &mut UiColor, &Children),
-        (Changed<Interaction>, With<Button>),
-    >,
+    mut interaction_query: Query<(&Interaction, &mut UiColor, &Children), (Changed<Interaction>, With<Button>)>,
     text_query: Query<&Text>,
 ) {
     for (interaction, mut material, children) in interaction_query.iter_mut() {

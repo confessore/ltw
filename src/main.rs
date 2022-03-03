@@ -67,29 +67,30 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                 .with_system(gamestate::playing::setup::setup))
         .add_system_set(
             SystemSet::on_update(GameState::Playing)
+                //.with_system(gamestate::playing::input::input)
                 .with_system(gamestate::playing::movement::move_unit)
                 .with_system(gamestate::playing::camera::focus_camera))
         .add_system_set(
             SystemSet::on_exit(GameState::Playing)
                 .with_system(gamestate::playing::teardown::teardown))
-        /*.add_system_set(
+        .add_system_set(
             SystemSet::on_enter(PlayerState::Default)
-                .with_system())
+                .with_system(playerstate::default::setup::setup))
         .add_system_set(
             SystemSet::on_update(PlayerState::Default)
-                .with_system())
+                .with_system(playerstate::default::input::input))
         .add_system_set(
             SystemSet::on_exit(PlayerState::Default)
-                .with_system())
+                .with_system(playerstate::default::teardown::teardown))
         .add_system_set(
             SystemSet::on_enter(PlayerState::Menu)
-                .with_system())
+                .with_system(playerstate::menu::setup::setup))
         .add_system_set(
             SystemSet::on_update(PlayerState::Menu)
-                .with_system())
+                .with_system(playerstate::menu::input::input))
         .add_system_set(
             SystemSet::on_exit(PlayerState::Menu)
-                .with_system())*/
+                .with_system(playerstate::menu::teardown::teardown))
         //.add_plugin(WgpuResourceDiagnosticsPlugin::default())
         //.add_system_set(
         //    SystemSet::on_enter(PlayerState::Menu)

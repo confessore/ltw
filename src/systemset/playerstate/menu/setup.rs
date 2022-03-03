@@ -1,27 +1,139 @@
 use crate::{
-    Game,
-    GameState,
-    PlayerState
+    button
 };
 
 use bevy::prelude::*;
 
-pub fn setup(
-    mut commands: Commands,
-    mut game: ResMut<Game>,
-    mut game_state: ResMut<State<GameState>>,
-    mut player_state: ResMut<State<PlayerState>>,
-    mut transforms: Query<&mut Transform>,
-    keyboard_input: Res<Input<KeyCode>>) {
-        if keyboard_input.just_pressed(KeyCode::Escape) {
-            let state = player_state.current();
-            match *state {
-                PlayerState::Menu => {
-                    player_state.set(PlayerState::Default).unwrap();
+pub fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
+    // ui camera
+    commands.spawn_bundle(UiCameraBundle::default());
+    // root node
+    commands.spawn_bundle(NodeBundle {
+        style: Style {
+            size: Size::new(Val::Percent(100.0), Val::Percent(100.0)),
+            flex_direction: FlexDirection::Row,
+            justify_content: JustifyContent::FlexEnd,
+            align_items: AlignItems::FlexEnd,
+            ..Default::default()
+        },
+        color: Color::NONE.into(),
+        ..Default::default()
+    })
+    .with_children(|parent| {
+        // left vertical border node
+        parent.spawn_bundle(NodeBundle {
+            style: Style {
+                size: Size::new(Val::Percent(15.0), Val::Percent(100.0)),
+                border: Rect::all(Val::Px(2.0)),
+                ..Default::default()
+            },
+            color: Color::rgb(0.65, 0.65, 0.65).into(),
+            ..Default::default()
+        })
+        .with_children(|parent| {
+            //left vertical content node
+            parent.spawn_bundle(NodeBundle {
+                style: Style {
+                    size: Size::new(Val::Percent(100.0), Val::Percent(100.0)),
+                    flex_direction: FlexDirection::ColumnReverse,
+                    flex_wrap: FlexWrap::Wrap,
+                    align_content: AlignContent::SpaceBetween,
+                    justify_content: JustifyContent::SpaceBetween,
+                    ..Default::default()
                 },
-                _ => {
-                    player_state.set(PlayerState::Menu).unwrap();
-                }
-            }
-        }
+                color: Color::rgb(0.15, 0.15, 0.15).into(),
+                ..Default::default()
+            })
+            .with_children(|parent| {
+                parent.spawn_bundle(ButtonBundle {
+                    style: Style {
+                        size: Size::new(Val::Px(150.0), Val::Px(65.0)),
+                        // center button
+                        margin: Rect::all(Val::Auto),
+                        // horizontally center child text
+                        justify_content: JustifyContent::Center,
+                        // vertically center child text
+                        align_items: AlignItems::Center,
+                        ..Default::default()
+                    },
+                    color: button::default::NORMAL.into(),
+                    ..Default::default()
+                })
+                .with_children(|parent| {
+                    parent.spawn_bundle(TextBundle {
+                        text: Text::with_section(
+                            "play",
+                            TextStyle {
+                                font: asset_server.load("fonts/FiraSans-Bold.ttf"),
+                                font_size: 40.0,
+                                color: Color::rgb(0.9, 0.9, 0.9),
+                            },
+                            Default::default(),
+                        ),
+                        ..Default::default()
+                    });
+                });
+            })
+            .with_children(|parent| {
+                parent.spawn_bundle(ButtonBundle {
+                    style: Style {
+                        size: Size::new(Val::Px(150.0), Val::Px(65.0)),
+                        // center button
+                        margin: Rect::all(Val::Auto),
+                        // horizontally center child text
+                        justify_content: JustifyContent::Center,
+                        // vertically center child text
+                        align_items: AlignItems::Center,
+                        ..Default::default()
+                    },
+                    color: button::default::NORMAL.into(),
+                    ..Default::default()
+                })
+                .with_children(|parent| {
+                    parent.spawn_bundle(TextBundle {
+                        text: Text::with_section(
+                            "options",
+                            TextStyle {
+                                font: asset_server.load("fonts/FiraSans-Bold.ttf"),
+                                font_size: 40.0,
+                                color: Color::rgb(0.9, 0.9, 0.9),
+                            },
+                            Default::default(),
+                        ),
+                        ..Default::default()
+                    });
+                });
+            })
+            .with_children(|parent| {
+                parent.spawn_bundle(ButtonBundle {
+                    style: Style {
+                        size: Size::new(Val::Px(150.0), Val::Px(65.0)),
+                        // center button
+                        margin: Rect::all(Val::Auto),
+                        // horizontally center child text
+                        justify_content: JustifyContent::Center,
+                        // vertically center child text
+                        align_items: AlignItems::Center,
+                        ..Default::default()
+                    },
+                    color: button::default::NORMAL.into(),
+                    ..Default::default()
+                })
+                .with_children(|parent| {
+                    parent.spawn_bundle(TextBundle {
+                        text: Text::with_section(
+                            "exit",
+                            TextStyle {
+                                font: asset_server.load("fonts/FiraSans-Bold.ttf"),
+                                font_size: 40.0,
+                                color: Color::rgb(0.9, 0.9, 0.9),
+                            },
+                            Default::default(),
+                        ),
+                        ..Default::default()
+                    });
+                });
+            });
+        });
+    });
 }
