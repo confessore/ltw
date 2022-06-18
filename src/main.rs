@@ -11,7 +11,6 @@ use bevy::{
         WindowMode
     }
 };
-use bevy_mod_picking::*;
 use ltw::{
     systemset::{
         gamestate,
@@ -38,14 +37,11 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             mode: WindowMode::Windowed,
             width: 1280.0,
             height: 720.0,
-            ..Default::default()
+            ..default()
         })
 
         .add_plugins(DefaultPlugins)
         //.add_plugin(GGRSPlugin)
-        .add_plugins(DefaultPickingPlugins)
-        .add_plugin(DebugCursorPickingPlugin) // <- Adds the green debug cursor.
-        .add_plugin(DebugEventsPickingPlugin) // <- Adds debug event logging.
         
         .add_state(GameState::Default)
         .add_state(PlayerState::Default)
@@ -66,7 +62,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                 .with_system(gamestate::playing::setup::setup_cameras)
                 .with_system(gamestate::playing::setup::setup))
         .add_system_set(
-            SystemSet::on_update(GameState::Playing)
+            SystemSet::on_update(GameState::Playing) 
                 //.with_system(gamestate::playing::input::input)
                 .with_system(gamestate::playing::movement::move_unit)
                 .with_system(gamestate::playing::camera::focus_camera))

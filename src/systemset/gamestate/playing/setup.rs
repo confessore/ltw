@@ -6,27 +6,21 @@ use crate::{
     RESET_FOCUS
 };
 use bevy::prelude::*;
-use bevy_mod_picking::{
-    PickableBundle,
-    PickingCameraBundle
-};
 
 pub fn setup_cameras(
     mut commands: Commands,
     mut game: ResMut<Game>) {
-        game.camera_to = Vec3::from(RESET_FOCUS);
-        game.camera_from = game.camera_to;
-        commands.spawn_bundle(PerspectiveCameraBundle {
+        game.camera_current = Vec3::from(RESET_FOCUS);
+        game.camera_previous = game.camera_current;
+        commands.spawn_bundle(Camera3dBundle {
             transform: Transform::from_xyz(
                 -(BOARD_SIZE_X as f32 / 2.0),
                 2.0 * BOARD_SIZE_Y as f32 / 5.0,
                 BOARD_SIZE_Y as f32 / 2.0
             )
-            .looking_at(game.camera_from, Vec3::Y),
-            ..Default::default()
-        })
-        .insert_bundle(PickingCameraBundle::default());
-        commands.spawn_bundle(UiCameraBundle::default());
+            .looking_at(game.camera_current, Vec3::Y),
+            ..default()
+        });
 }
 
 pub fn setup(
@@ -43,38 +37,23 @@ pub fn setup(
                 range: 50.0,
                 radius: 0.0,
                 shadows_enabled: false,
-                ..Default::default()
-            },
+                ..default()
+            }, 
             transform: Transform::from_xyz(BOARD_SIZE_X as f32 / 2.0, 5.0, BOARD_SIZE_Y as f32 / 2.0),
-            ..Default::default()
+            ..default()
         });
         let tile_mesh = meshes.add(Mesh::from(shape::Plane {
             size: 1.0 
         }));
-        let white_material = materials.add(Color::rgb(1.0, 0.9, 0.9).into());
-        let black_material = materials.add(Color::rgb(0.0, 0.1, 0.1).into());
+        let cell_scene = asset_server.load("models/tile.glb#Scene0");
         game.map = (0..BOARD_SIZE_Y).map(|y| {
             (0..BOARD_SIZE_X).map(|x| {
                 //let height = rand::thread_rng().gen_range(-10.0..10.0);
-                commands.spawn_bundle(PbrBundle {
+                commands.spawn_bundle(SceneBundle {
                     transform: Transform::from_xyz(x as f32, 0.0, y as f32),
-                    ..Default::default()
-                })
-                .with_children(|tile| {
-                    tile.spawn_bundle(PbrBundle {
-                        mesh: tile_mesh.clone(),
-                        material: {
-                            if (x + y + 1) % 2 == 0 {
-                                black_material.clone()
-                            } else {
-                                black_material.clone()
-                            }
-                        },
-                        ..Default::default()
-                    })
-                    .insert_bundle(PickableBundle::default());
-                })
-                .insert_bundle(PickableBundle::default());
+                    scene: cell_scene.clone(),
+                    ..default()
+                });
                 Tile { 
                     height: 0.0
                 }
@@ -85,27 +64,14 @@ pub fn setup(
         game.unit.x = BOARD_SIZE_X / 2;
         game.unit.y = BOARD_SIZE_Y / 2;
         let character = asset_server.load("models/character.glb#Scene0");
-        let tree = asset_server.load("models/character.glb#Scene0");
-        //let tree_scene = scenes.get_mut(tree).unwrap();
         game.unit.entity = Some(
-            commands.spawn_bundle(PbrBundle {
+            commands.spawn_bundle(SceneBundle {
                 transform: Transform::from_xyz(BOARD_SIZE_X as f32 / 2.0, 2.5, BOARD_SIZE_Y as f32 / 2.0),
-                ..Default::default()
+                scene: character.clone(),
+                ..default()
             })
-            .with_children(|unit| {
-                unit.spawn_scene(character);
-            })
-            .insert_bundle(PickableBundle::default())
             .id()
         );
-        commands.spawn_bundle(PbrBundle {
-            transform: Transform::from_xyz(BOARD_SIZE_X as f32 / 4.0, 2.5, BOARD_SIZE_Y as f32 / 4.0),
-            ..Default::default()
-        })
-        .with_children(|unit| {
-            unit.spawn_scene(tree);
-        })
-        .insert_bundle(PickableBundle::default());
 }
 
 pub struct PlayingMaterials {
