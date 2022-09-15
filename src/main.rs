@@ -16,6 +16,7 @@ use ltw::{
         gamestate,
         playerstate
     },
+    Colony,
     Game,
     GameState,
     PlayerState,
@@ -47,6 +48,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         .add_state(PlayerState::Default)
 
         .init_resource::<Game>()
+        .init_resource::<Colony>()
         //.add_startup_system(setup_cameras)
         .add_system_set(
             SystemSet::on_enter(GameState::Default)

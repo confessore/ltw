@@ -1,6 +1,7 @@
 // #![feature(derive_default_enum)] // requires nightly
 pub mod action;
 pub mod button;
+pub mod colony;
 pub mod damage;
 pub mod effect;
 pub mod game;
@@ -14,6 +15,9 @@ pub use crate::{
     action::{
     },
     button::{
+    },
+    colony::{
+        Colony
     },
     damage::{
         MagicalDamage,
