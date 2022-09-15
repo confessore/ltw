@@ -62,7 +62,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                 .with_system(gamestate::playing::setup::setup_cameras)
                 .with_system(gamestate::playing::setup::setup))
         .add_system_set(
-            SystemSet::on_update(GameState::Playing)
+            SystemSet::on_update(GameState::Playing) 
                 //.with_system(gamestate::playing::input::input)
                 .with_system(gamestate::playing::movement::move_unit)
                 .with_system(gamestate::playing::camera::focus_camera))
