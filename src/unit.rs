@@ -4,16 +4,19 @@ use bevy::prelude::*;
 pub struct Unit {
     pub entity: Option<Entity>,
 
-    pub health: f32,
-    pub magical_armor: f32,
-    pub physical_armor: f32,
+    pub current_health: f64,
+    pub max_health: f64,
+    pub current_magic: f64,
+    pub max_magic: f64,
+    pub magical_armor: f64,
+    pub physical_armor: f64,
 
-    pub constitution: f32,
-    pub finesse: f32,
-    pub intelligence: f32,
-    pub strength: f32,
+    pub constitution: f64,
+    pub finesse: f64,
+    pub intelligence: f64,
+    pub strength: f64,
     
-    pub initiative: f32,
+    pub initiative: f64,
 
     pub burrowed: bool,
     pub cloaked: bool,
@@ -23,10 +26,10 @@ pub struct Unit {
     pub selectable: bool,
     pub targetable: bool,
 
-    pub movement: f32,
-    pub actions: u32,
+    pub movement: f64,
+    pub jump: f64,
+    pub actions: f64,
 
-    pub speed: f32,
     pub x: usize,
     pub y: usize,
     pub z: usize

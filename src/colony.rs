@@ -3,12 +3,17 @@ use bevy::prelude::*;
 
 #[derive(Default, Resource)]
 pub struct Colony {
-    pub current_ore: i64,
-    pub max_ore: i64,
-    pub current_ingot: i64,
-    pub max_ingot: i64,
-    pub current_logs: i64,
-    pub max_logs: i64
+    pub ores_rate: f64,
+    pub current_ores: f64,
+    pub max_ores: f64,
+
+    pub ingots_rate: f64,
+    pub current_ingots: f64,
+    pub max_ingots: f64,
+
+    pub logs_rate: f64,
+    pub current_logs: f64,
+    pub max_logs: f64
 }
 
 impl Colony {
