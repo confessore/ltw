@@ -21,19 +21,3 @@ structopt = { version = "^0.3" }
 git = "https://github.com/bevyengine/bevy"
 branch = "main"
 features = ["bevy_gltf"]
-
-[dependencies.bevy_ggrs]
-git = "https://github.com/gschup/bevy_ggrs"
-branch = "main"
-
-[dependencies.bevy_mod_picking]
-git = "https://github.com/aevyrie/bevy_mod_picking"
-branch = "main"
-
-[dependencies.ggrs]
-git = "https://github.com/gschup/ggrs"
-branch = "main"
-
-[patch.crates-io.bevy]
-git = "https://github.com/bevyengine/bevy"
-branch = "main"

@@ -6,7 +6,7 @@ use bevy::prelude::*;
 
 pub fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
     // ui camera
-    commands.spawn_bundle(UiCameraBundle::default());
+    commands.spawn_bundle(Camera2dBundle::default());
     // root node
     commands.spawn_bundle(NodeBundle {
         style: Style {
@@ -24,7 +24,7 @@ pub fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
         parent.spawn_bundle(NodeBundle {
             style: Style {
                 size: Size::new(Val::Percent(15.0), Val::Percent(100.0)),
-                border: Rect::all(Val::Px(2.0)),
+                border: UiRect::all(Val::Px(2.0)),
                 ..Default::default()
             },
             color: Color::rgb(0.65, 0.65, 0.65).into(),
@@ -49,7 +49,7 @@ pub fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
                     style: Style {
                         size: Size::new(Val::Px(150.0), Val::Px(65.0)),
                         // center button
-                        margin: Rect::all(Val::Auto),
+                        margin: UiRect::all(Val::Auto),
                         // horizontally center child text
                         justify_content: JustifyContent::Center,
                         // vertically center child text
@@ -61,14 +61,13 @@ pub fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
                 })
                 .with_children(|parent| {
                     parent.spawn_bundle(TextBundle {
-                        text: Text::with_section(
+                        text: Text::from_section(
                             "play",
                             TextStyle {
                                 font: asset_server.load("fonts/FiraSans-Bold.ttf"),
                                 font_size: 40.0,
                                 color: Color::rgb(0.9, 0.9, 0.9),
-                            },
-                            Default::default(),
+                            }
                         ),
                         ..Default::default()
                     });
@@ -79,7 +78,7 @@ pub fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
                     style: Style {
                         size: Size::new(Val::Px(150.0), Val::Px(65.0)),
                         // center button
-                        margin: Rect::all(Val::Auto),
+                        margin: UiRect::all(Val::Auto),
                         // horizontally center child text
                         justify_content: JustifyContent::Center,
                         // vertically center child text
@@ -91,14 +90,13 @@ pub fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
                 })
                 .with_children(|parent| {
                     parent.spawn_bundle(TextBundle {
-                        text: Text::with_section(
+                        text: Text::from_section(
                             "options",
                             TextStyle {
                                 font: asset_server.load("fonts/FiraSans-Bold.ttf"),
                                 font_size: 40.0,
                                 color: Color::rgb(0.9, 0.9, 0.9),
-                            },
-                            Default::default(),
+                            }
                         ),
                         ..Default::default()
                     });
@@ -109,7 +107,7 @@ pub fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
                     style: Style {
                         size: Size::new(Val::Px(150.0), Val::Px(65.0)),
                         // center button
-                        margin: Rect::all(Val::Auto),
+                        margin: UiRect::all(Val::Auto),
                         // horizontally center child text
                         justify_content: JustifyContent::Center,
                         // vertically center child text
@@ -121,14 +119,13 @@ pub fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
                 })
                 .with_children(|parent| {
                     parent.spawn_bundle(TextBundle {
-                        text: Text::with_section(
+                        text: Text::from_section(
                             "exit",
                             TextStyle {
                                 font: asset_server.load("fonts/FiraSans-Bold.ttf"),
                                 font_size: 40.0,
                                 color: Color::rgb(0.9, 0.9, 0.9),
-                            },
-                            Default::default(),
+                            }
                         ),
                         ..Default::default()
                     });
