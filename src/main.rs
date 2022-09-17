@@ -62,6 +62,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         .add_system_set(
             SystemSet::on_enter(GameState::Playing)
                 .with_system(gamestate::playing::colony::initialize)
+                .with_system(gamestate::playing::setup::setup_ui)
                 .with_system(gamestate::playing::setup::setup_cameras)
                 .with_system(gamestate::playing::setup::setup))
         .add_system_set(
@@ -69,7 +70,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                 //.with_system(gamestate::playing::input::input)
                 .with_system(gamestate::playing::colony::step)
                 .with_system(gamestate::playing::movement::move_unit)
-                .with_system(gamestate::playing::camera::focus_camera))
+                .with_system(gamestate::playing::camera::focus_camera)
+                .with_system(gamestate::playing::ui::button_system))
         .add_system_set(
             SystemSet::on_exit(GameState::Playing)
                 .with_system(gamestate::playing::teardown::teardown))
