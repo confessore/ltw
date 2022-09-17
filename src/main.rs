@@ -71,7 +71,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                 .with_system(gamestate::playing::colony::step)
                 .with_system(gamestate::playing::movement::move_unit)
                 .with_system(gamestate::playing::camera::focus_camera)
-                .with_system(gamestate::playing::ui::button_system))
+                .with_system(gamestate::playing::ui::button_system)
+                .with_system(gamestate::playing::ui::update_ingots))
         .add_system_set(
             SystemSet::on_exit(GameState::Playing)
                 .with_system(gamestate::playing::teardown::teardown))

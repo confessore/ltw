@@ -136,7 +136,7 @@ pub fn setup_ui(
                 .with_children(|parent| {
                     parent.spawn_bundle(TextBundle {
                         text: Text::from_section(
-                            "ingots",
+                            format!("ingots: {}", colony.current_ingots),
                             TextStyle {
                                 font: asset_server.load("fonts/FiraSans-Bold.ttf"),
                                 font_size: 40.0,
