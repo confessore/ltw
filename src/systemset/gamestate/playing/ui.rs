@@ -55,9 +55,27 @@ pub fn button_system(
     }
 }
 
+pub fn update_ores(colony: Res<Colony>, mut query: Query<&mut Text>) {
+    for mut text in &mut query {
+        if text.sections[0].value.contains("ores") {
+            text.sections[0].value = format!("ores: {}", colony.current_ores);
+        }
+    }
+}
+
 // update the score displayed during the game
 pub fn update_ingots(colony: Res<Colony>, mut query: Query<&mut Text>) {
     for mut text in &mut query {
-        text.sections[0].value = format!("ingots: {}", colony.current_ingots);
+        if text.sections[0].value.contains("ingots") {
+            text.sections[0].value = format!("ingots: {}", colony.current_ingots);
+        }
+    }
+}
+
+pub fn update_logs(colony: Res<Colony>, mut query: Query<&mut Text>) {
+    for mut text in &mut query {
+        if text.sections[0].value.contains("logs") {
+            text.sections[0].value = format!("logs: {}", colony.current_logs);
+        }
     }
 }
