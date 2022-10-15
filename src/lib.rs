@@ -5,6 +5,7 @@ pub mod colony;
 pub mod damage;
 pub mod effect;
 pub mod game;
+pub mod job;
 pub mod player;
 pub mod state;
 pub mod systemset;

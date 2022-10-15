@@ -12,7 +12,7 @@ pub struct Unit {
     pub physical_armor: f64,
 
     pub constitution: f64,
-    pub finesse: f64,
+    pub agility: f64,
     pub intelligence: f64,
     pub strength: f64,
     
