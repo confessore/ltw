@@ -1,3 +1,1 @@
-pub fn teardown() {
-    
-}
+pub fn teardown() {}

@@ -1,11 +1,15 @@
-#[derive(Clone, Debug, Eq, Hash, PartialEq)]
+use bevy::prelude::States;
+
+#[derive(Default, Clone, Debug, Eq, Hash, PartialEq, States)]
 pub enum GameState {
+    #[default]
     Default,
-    Playing
+    Playing,
 }
 
-#[derive(Clone, Debug, Eq, Hash, PartialEq)]
+#[derive(Default, Clone, Debug, Eq, Hash, PartialEq, States)]
 pub enum PlayerState {
+    #[default]
     Default,
-    Menu
+    Menu,
 }

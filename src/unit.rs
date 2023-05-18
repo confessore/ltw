@@ -15,7 +15,7 @@ pub struct Unit {
     pub agility: f64,
     pub intelligence: f64,
     pub strength: f64,
-    
+
     pub initiative: f64,
 
     pub burrowed: bool,
@@ -32,5 +32,5 @@ pub struct Unit {
 
     pub x: usize,
     pub y: usize,
-    pub z: usize
+    pub z: usize,
 }

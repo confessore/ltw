@@ -13,9 +13,7 @@ pub struct Colony {
 
     pub logs_rate: f64,
     pub current_logs: f64,
-    pub max_logs: f64
+    pub max_logs: f64,
 }
 
-impl Colony {
-
-}
+impl Colony {}

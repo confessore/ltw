@@ -7,7 +7,7 @@ pub enum MagicalDamage {
     Air,
     Earth,
     Fire,
-    Water
+    Water,
 }
 
 //#[derive(Default, Copy, Clone, Reflect, Hash)]
@@ -16,5 +16,5 @@ pub enum PhysicalDamage {
     Default,
     Crushing,
     Piercing,
-    Slashing
+    Slashing,
 }

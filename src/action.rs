@@ -1,4 +1,2 @@
 use super::*;
-use bevy::{
-    prelude::*
-};
+use bevy::prelude::*;

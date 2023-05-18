@@ -15,7 +15,8 @@ pub enum Job {
     Scout,
     // duelist scout combination
     // t3, t4
-    Mercenary, Vanguard,
+    Mercenary,
+    Vanguard,
 
     // direct damage spells
     // t2
@@ -25,19 +26,24 @@ pub enum Job {
     Theurgist,
     // arcanist theurgist combination
     // t3, t4
-    Scholar, Conduit,
+    Scholar,
+    Conduit,
 
     // duelist arcanist combination
     // t3, t4
-    Custodian, Warden,
+    Custodian,
+    Warden,
     // duelist theurgist combination
     // t3, t4
-    Templar, Crusader,
+    Templar,
+    Crusader,
 
     // scout arcanist combination
     // t3, t4
-    Tactician, Strategist,
+    Tactician,
+    Strategist,
     // scout theurgist combination
     //t3, t4
-    Missionary, Orator,
+    Missionary,
+    Orator,
 }

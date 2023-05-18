@@ -8,48 +8,18 @@ pub mod game;
 pub mod job;
 pub mod player;
 pub mod state;
-pub mod systemset;
 pub mod tile;
 pub mod unit;
+pub mod systemset;
 
 pub use crate::{
-    action::{
-    },
-    button::{
-    },
-    colony::{
-        Colony
-    },
-    damage::{
-        MagicalDamage,
-        PhysicalDamage
-    },
-    effect::{
-
-    },
-    game::{
-        Game
-    },
-    player::{
-        Player
-    },
-    state::{
-        GameState,
-        PlayerState
-    },
-    systemset::{
-        gamestate::{
-        },
-        playerstate::{
-
-        }
-    },
-    tile::{
-        Tile
-    },
-    unit::{
-        Unit
-    }
+    colony::Colony,
+    damage::{MagicalDamage, PhysicalDamage},
+    game::Game,
+    player::Player,
+    state::{GameState, PlayerState},
+    tile::Tile,
+    unit::Unit,
 };
 
 use structopt::StructOpt;
@@ -69,8 +39,4 @@ pub const SPEED: f32 = 2.0;
 pub const BOARD_SIZE_X: usize = 16;
 pub const BOARD_SIZE_Y: usize = 16;
 
-pub const RESET_FOCUS: [f32; 3] = [
-    BOARD_SIZE_X as f32 / 2.0,
-    0.0,
-    BOARD_SIZE_Y as f32 / 2.0,
-];
+pub const RESET_FOCUS: [f32; 3] = [BOARD_SIZE_X as f32 / 2.0, 0.0, BOARD_SIZE_Y as f32 / 2.0];

@@ -1,7 +1,5 @@
 pub struct Tile {
-    pub height: f32
+    pub height: f32,
 }
 
-impl Tile {
-
-}
+impl Tile {}

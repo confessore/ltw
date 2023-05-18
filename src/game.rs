@@ -8,9 +8,7 @@ pub struct Game {
     pub turn_order: Vec<u32>,
     pub camera_previous: Vec3,
     pub camera_current: Vec3,
-    pub unit: Unit
+    pub unit: Unit,
 }
 
-impl Game {
-
-}
+impl Game {}
