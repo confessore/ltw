@@ -28,14 +28,9 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         .add_systems(
             OnEnter(GameState::Playing),
             (
-                gamestate::playing::colony::initialize,
                 gamestate::playing::setup::setup_cameras,
                 gamestate::playing::setup::setup,
             ),
-        )
-        .add_systems(
-            Update,
-            gamestate::playing::colony::step.run_if(in_state(GameState::Playing)),
         )
         .add_systems(
             Update,
