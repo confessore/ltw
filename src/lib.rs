@@ -10,7 +10,6 @@ pub mod player;
 pub mod state;
 pub mod tile;
 pub mod unit;
-pub mod systemset;
 
 pub use crate::{
     colony::Colony,

@@ -4,9 +4,7 @@ use bevy::{
     render::camera::{Camera, CameraPlugin},
     window::WindowMode,
 };
-use ltw::{
-    Colony, Game, GameState, PlayerState, RESET_FOCUS, SPEED, systemset::gamestate,
-};
+use ltw::{state::gamestate, Colony, Game, GameState, PlayerState, RESET_FOCUS, SPEED};
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     //let opt = Opt::from_args();
