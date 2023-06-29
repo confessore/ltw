@@ -1,5 +1,10 @@
 // jobs are what makes units unique and different from each other
+#[derive(Default)]
 pub enum Job {
+    // default
+    // t0
+    #[default]
+    Civilian,
     // most weapon masters began as soldiers
     // t1
     Soldier,

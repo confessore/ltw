@@ -1,5 +1,7 @@
 use bevy::prelude::*;
 
+use crate::job::Job;
+
 #[derive(Default)]
 pub struct Unit {
     pub entity: Option<Entity>,
@@ -33,4 +35,6 @@ pub struct Unit {
     pub x: usize,
     pub y: usize,
     pub z: usize,
+
+    pub job: Job,
 }
